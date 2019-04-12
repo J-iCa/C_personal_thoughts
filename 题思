@@ -1,0 +1,30 @@
+输入A，B，C三个学生的考试成绩，输出分数居中的学生的名字（A，B，C）和分数。
+
+主流应该会想用二维数组做，但是我选择非主流，，，
+我自己想出来的一种做法，比较简洁，但是有漏洞：不能处理两个或三个学生分数相同的情况，我想了一些解决办法，但都会使得程序变得丑陋。留此题，望来日漂亮解出。
+#include <stdio.h>
+enum {A,B,C} s;// 三个学生的名字
+enum {min,mid,max} state; // 成绩状态，描述现在正在寻找的成绩段
+int main() {
+    char students[10000] = {0};
+    printf("input A,B,C's grades by order :\n");
+    for(s = A; s <= C; s++) {
+        int record;
+        scanf("%d",&record);
+        students[record] = s + 'A'; // 数组记录学生姓名，下标记录成绩
+    }
+    state = min; //turn state to find min-student
+    for(int i = 0; i < 1000; i++) {
+        if(state == min) {
+            if(students[i]) state = mid; //turn state to find mid-student
+        }// 或许可以记录下于min状态下的i值
+        else if(state == mid) {
+            if(students[i]) {
+                state = max; //turn state to find max-student
+                printf("the mid student is %c, whose grade is %d\n",students[i],i);
+            }
+        }
+    }
+}
+
+二维数组做法：
